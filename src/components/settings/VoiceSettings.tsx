@@ -60,9 +60,24 @@ export const VoiceSettings: React.FC<VoiceSettingsProps> = ({ isOpen, onClose })
     });
   };
 
+  // Handle Escape key dismissal
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in select-none">
-      <div className="bg-cat-panel border-2 border-cat-yellow/60 rounded-xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in select-none cursor-pointer"
+    >
+      <div className="bg-cat-panel border-2 border-cat-yellow/60 rounded-xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col cursor-default">
         {/* Header */}
         <div className="p-4 bg-cat-surface border-b border-cat-border flex items-center justify-between">
           <div className="flex items-center space-x-3">

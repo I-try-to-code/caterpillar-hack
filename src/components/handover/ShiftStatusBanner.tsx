@@ -83,7 +83,7 @@ export const ShiftStatusBanner: React.FC<ShiftStatusBannerProps> = ({
           <span className="font-extrabold text-cat-text truncate max-w-[200px]">
             Trenching Zone B
           </span>
-          <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-black bg-cat-yellow/20 text-cat-yellow border border-cat-yellow/40">
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-cat-yellow text-slate-950 border border-slate-950/20 shadow-xs">
             62%
           </span>
         </div>
@@ -160,10 +160,10 @@ export const ShiftStatusBanner: React.FC<ShiftStatusBannerProps> = ({
             <button
               type="button"
               onClick={onOpenDemo}
-              className="touch-btn h-7 px-2 text-[11px] font-black rounded bg-cat-surface hover:bg-cat-hover text-cat-yellow border border-cat-yellow/50 flex items-center space-x-1 transition-all"
+              className="touch-btn h-7 px-2.5 text-[11px] font-black rounded-md bg-cat-surface hover:bg-cat-hover text-slate-900 border border-cat-border hover:border-cat-yellow flex items-center space-x-1.5 transition-all shadow-xs"
               title="Launch Judge Demo Scenarios"
             >
-              <Zap className="w-3 h-3 text-cat-yellow" />
+              <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               <span>Demo Mode</span>
             </button>
           )}
@@ -172,10 +172,10 @@ export const ShiftStatusBanner: React.FC<ShiftStatusBannerProps> = ({
             <button
               type="button"
               onClick={onOpenAssistant}
-              className="touch-btn h-7 px-2.5 text-[11px] font-black rounded bg-cat-yellow text-slate-950 hover:bg-yellow-400 flex items-center space-x-1 transition-all shadow-sm"
+              className="touch-btn h-7 px-3 text-[11px] font-black rounded-md bg-cat-yellow text-slate-950 hover:bg-yellow-400 active:scale-95 flex items-center space-x-1.5 transition-all shadow-sm border border-slate-950/20"
               title="Open CAT Operator Assistant Co-Pilot"
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
               <span>AI Co-Pilot</span>
             </button>
           )}

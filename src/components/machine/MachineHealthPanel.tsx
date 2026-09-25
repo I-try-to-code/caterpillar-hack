@@ -143,7 +143,7 @@ export const MachineHealthPanel: React.FC<MachineHealthPanelProps> = ({
       {/* 2. Subsystem Diagnosis Cards */}
       <div
         className={`grid gap-3 ${
-          compact ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+          compact ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5'
         }`}
       >
         {subsystems.map((sub) => {
@@ -154,7 +154,7 @@ export const MachineHealthPanel: React.FC<MachineHealthPanelProps> = ({
           return (
             <div
               key={sub.id}
-              className={`p-3.5 rounded-lg border transition-all flex flex-col justify-between ${
+              className={`p-3.5 rounded-lg border transition-all flex flex-col justify-between min-w-0 ${
                 isCritical
                   ? 'bg-cat-red/10 border-cat-red/60 shadow-cat-danger'
                   : isWarning
@@ -164,9 +164,9 @@ export const MachineHealthPanel: React.FC<MachineHealthPanelProps> = ({
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 min-w-0 mr-1.5">
                     <Icon
-                      className={`w-4 h-4 ${
+                      className={`w-4 h-4 flex-shrink-0 ${
                         isCritical
                           ? 'text-cat-red'
                           : isWarning

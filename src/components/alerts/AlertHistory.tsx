@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useVoiceAlerts } from '../../hooks/useVoiceAlerts';
 import { AlertPriorityBadge } from './AlertPriorityBadge';
 import {
@@ -28,6 +28,16 @@ export const AlertHistory: React.FC<AlertHistoryProps> = ({ isOpen, onClose }) =
     clearAlertHistory,
     speakAlert,
   } = useVoiceAlerts();
+
+  // Handle Escape key dismissal
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   const [severityFilter, setSeverityFilter] = useState<string>('all');
   const [moduleFilter, setModuleFilter] = useState<string>('all');
@@ -100,8 +110,13 @@ export const AlertHistory: React.FC<AlertHistoryProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 md:p-6 animate-fade-in select-none">
-      <div className="bg-cat-panel border-2 border-cat-yellow/60 rounded-xl w-full max-w-5xl h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3 md:p-6 animate-fade-in select-none cursor-pointer"
+    >
+      <div className="bg-cat-panel border-2 border-cat-yellow/60 rounded-xl w-full max-w-5xl h-[85vh] flex flex-col shadow-2xl overflow-hidden cursor-default">
         {/* Header */}
         <div className="p-4 bg-cat-surface border-b border-cat-border flex items-center justify-between">
           <div className="flex items-center space-x-3">

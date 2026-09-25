@@ -12,7 +12,7 @@ export const TrainingPage: React.FC = () => {
       <div className="cab-panel p-5 border-l-4 border-l-cat-yellow flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="px-2 py-0.5 rounded text-xs font-black bg-cat-yellow text-cat-bg uppercase tracking-wider">
+            <span className="px-2 py-0.5 rounded text-xs font-black bg-cat-yellow text-slate-950 uppercase tracking-wider shadow-xs">
               Module 3 &bull; Mod-C
             </span>
             <span className="text-xs uppercase tracking-widest text-cat-muted font-bold">
@@ -33,7 +33,7 @@ export const TrainingPage: React.FC = () => {
           <Award className="w-8 h-8 text-cat-yellow" />
           <div>
             <span className="text-xs text-cat-muted uppercase font-bold block">Operator Proficiency</span>
-            <span className="text-xl font-bold telemetry-readout text-cat-yellow">
+            <span className="text-lg font-black telemetry-readout bg-cat-yellow text-slate-950 px-2.5 py-0.5 rounded shadow-xs inline-block mt-0.5 border border-slate-950/20">
               Tier 2 Certified (88%)
             </span>
           </div>
@@ -41,14 +41,14 @@ export const TrainingPage: React.FC = () => {
       </div>
 
       {/* Operator Coaching Insight Card */}
-      <div className="p-4 rounded-lg bg-cat-surface border border-cat-yellow/40 flex items-start space-x-3">
-        <Sparkles className="w-6 h-6 text-cat-yellow flex-shrink-0 mt-0.5" />
+      <div className="p-4 rounded-lg bg-cat-surface border-2 border-cat-yellow/60 flex items-start space-x-3 shadow-xs">
+        <Sparkles className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-cat-yellow">
+          <h3 className="text-sm font-black uppercase tracking-wider text-amber-900">
             Telematics-Driven Personalized Recommendation
           </h3>
-          <p className="text-sm text-cat-text mt-1">
-            Machine telemetry logs for operator <span className="font-bold text-cat-yellow">{telemetry.operatorName}</span> indicate an idle time of <span className="telemetry-readout font-bold text-cat-text">{telemetry.idleTimeMinutes} min</span> and continuous operating duration of <span className="telemetry-readout font-bold text-cat-text">{telemetry.continuousOpMinutes} min</span>. Micro-course &ldquo;Fuel Optimization &amp; Idle Reduction&rdquo; is prioritized for your next rest period.
+          <p className="text-sm text-cat-text mt-1 font-medium">
+            Machine telemetry logs for operator <span className="font-extrabold text-amber-900 underline decoration-cat-yellow decoration-2">{telemetry.operatorName}</span> indicate an idle time of <span className="telemetry-readout font-bold text-cat-text">{telemetry.idleTimeMinutes} min</span> and continuous operating duration of <span className="telemetry-readout font-bold text-cat-text">{telemetry.continuousOpMinutes} min</span>. Micro-course &ldquo;Fuel Optimization &amp; Idle Reduction&rdquo; is prioritized for your next rest period.
           </p>
         </div>
       </div>
@@ -73,7 +73,7 @@ export const TrainingPage: React.FC = () => {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase text-cat-yellow telemetry-readout">
+                  <span className="text-xs font-black uppercase text-amber-800 telemetry-readout bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
                     {module.id} &bull; {module.category}
                   </span>
                   {module.completed ? (
@@ -94,7 +94,7 @@ export const TrainingPage: React.FC = () => {
                 </p>
 
                 {module.recommendedReason && (
-                  <div className="mt-3 p-2 rounded bg-cat-yellow/10 border border-cat-yellow/30 text-xs text-cat-yellow font-medium">
+                  <div className="mt-3 p-2 rounded bg-amber-500/10 border border-amber-500/30 text-xs text-amber-900 font-semibold">
                     &bull; {module.recommendedReason}
                   </div>
                 )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OperatorContextSnapshot } from '../../types/anomalies';
 import { AnomalySummaryMetrics } from '../../hooks/useAnomalyDetection';
 import {
@@ -37,6 +37,16 @@ export const AiAnomalyExplainer: React.FC<AiAnomalyExplainerProps> = ({
   snapshot,
   summary,
 }) => {
+  // Handle Escape key dismissal
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     // Generate initial grounded summary based strictly on real snapshot metrics
     const now = new Date().toLocaleTimeString('en-US', {
@@ -173,9 +183,16 @@ export const AiAnomalyExplainer: React.FC<AiAnomalyExplainerProps> = ({
     setInputQuery('');
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 md:p-6 animate-fade-in select-none">
-      <div className="bg-cat-panel border-2 border-cat-yellow rounded-xl w-full max-w-3xl h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 md:p-6 animate-fade-in select-none cursor-pointer"
+    >
+      <div className="bg-cat-panel border-2 border-cat-yellow rounded-xl w-full max-w-3xl h-[85vh] flex flex-col shadow-2xl overflow-hidden cursor-default">
         {/* Header */}
         <div className="p-4 bg-cat-surface border-b border-cat-border flex items-center justify-between">
           <div className="flex items-center space-x-3">

@@ -48,7 +48,9 @@ export const HandoverChecklist: React.FC = () => {
       autoVerifiedStatus: isParkedFlat ? 'pass' : 'fail',
       autoVerifiedDetail: isParkedFlat
         ? `Stationary on stable ${telemetry.slopeAngle.toFixed(1)}° grade`
-        : `Slope is ${telemetry.slopeAngle.toFixed(1)}° (> 6° limit) — reposition machine!`,
+        : telemetry.speed > 0
+          ? `Machine in motion (${telemetry.speed.toFixed(1)} km/h) — bring tracks to full stop!`
+          : `Slope angle ${telemetry.slopeAngle.toFixed(1)}° exceeds safe 6.0° limit — reposition machine!`,
     },
     {
       id: 'chk-cool',
@@ -136,14 +138,14 @@ export const HandoverChecklist: React.FC = () => {
   return (
     <div className="cab-panel p-5 border border-cat-border space-y-4">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-cat-border pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-cat-border pb-3 pt-1">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-md bg-cat-yellow text-slate-950 font-black">
+          <div className="p-2.5 rounded-md bg-cat-yellow text-slate-950 font-black shadow-xs">
             <ClipboardCheck className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-[11px] font-black uppercase tracking-wider text-cat-yellow">
+              <span className="text-[11px] font-black uppercase tracking-wider text-amber-800">
                 Close-Out Protocol
               </span>
               <span className="text-xs font-bold text-cat-muted">
@@ -157,14 +159,14 @@ export const HandoverChecklist: React.FC = () => {
         </div>
 
         {/* 1-Click Auto-Prepare for Handover */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-shrink-0">
           <button
             type="button"
             onClick={handleAutoPassTelemetry}
-            className="touch-btn h-8 px-3 text-xs font-bold rounded-md bg-cat-yellow/20 hover:bg-cat-yellow/30 text-cat-yellow border border-cat-yellow/40 transition-colors flex items-center space-x-1.5"
+            className="touch-btn h-8 px-3 text-xs font-black rounded-md bg-cat-yellow text-slate-950 hover:bg-yellow-400 border border-slate-950/20 transition-colors flex items-center space-x-1.5 whitespace-nowrap shadow-xs"
             title="Sets simulator to safe parked state and checks all items"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
             <span>Auto-Secure Machine (Demo)</span>
           </button>
 

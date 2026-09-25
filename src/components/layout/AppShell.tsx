@@ -7,7 +7,6 @@ import { SimulatorSidebar } from '../simulator/SimulatorSidebar';
 import { AssistantCommandCenter } from '../assistant/AssistantCommandCenter';
 import { DemoScenarioPanel } from '../demo/DemoScenarioPanel';
 import { useTelemetrySimulation } from '../../hooks/useTelemetrySimulation';
-import { Bot } from 'lucide-react';
 
 interface AppShellProps {
   activeTab: TabType;
@@ -68,20 +67,6 @@ export const AppShell: React.FC<AppShellProps> = ({ activeTab, onTabChange, chil
 
         <main className="flex-1 flex flex-col overflow-hidden bg-cat-bg relative">
           {children}
-
-          {/* Floating Tactile Co-Pilot Launcher Button (Does not block main content or alerts) */}
-          <button
-            type="button"
-            onClick={() => {
-              setAssistantTopic(undefined);
-              setIsAssistantOpen(true);
-            }}
-            className="touch-btn absolute bottom-4 right-4 z-20 h-11 px-3.5 rounded-full bg-cat-yellow text-slate-950 font-black shadow-lg hover:bg-yellow-400 hover:scale-105 active:scale-95 transition-all flex items-center space-x-2 border-2 border-slate-950/20"
-            title="Open CAT Operator Assistant Co-Pilot"
-          >
-            <Bot className="w-5 h-5" />
-            <span className="text-xs tracking-tight">AI Co-Pilot</span>
-          </button>
         </main>
       </div>
 

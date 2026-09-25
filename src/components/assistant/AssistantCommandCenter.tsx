@@ -82,6 +82,16 @@ export const AssistantCommandCenter: React.FC<AssistantCommandCenterProps> = ({
     }
   }, [initialQuery, isOpen]);
 
+  // Handle Escape key modal dismissal
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   useEffect(() => {
     if (isOpen) {
       chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -317,11 +327,14 @@ export const AssistantCommandCenter: React.FC<AssistantCommandCenterProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/60 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/60 backdrop-blur-sm animate-fade-in cursor-pointer"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-cat-panel border-2 border-cat-border rounded-xl shadow-2xl w-full max-w-3xl h-[85vh] max-h-[720px] flex flex-col overflow-hidden text-cat-text select-none">
+      <div className="bg-cat-panel border-2 border-cat-border rounded-xl shadow-2xl w-full max-w-3xl h-[85vh] max-h-[720px] flex flex-col overflow-hidden text-cat-text select-none cursor-default">
         {/* 1. Co-Pilot Header */}
         <div className="p-4 border-b-2 border-cat-border bg-cat-surface flex items-center justify-between">
           <div className="flex items-center space-x-3">

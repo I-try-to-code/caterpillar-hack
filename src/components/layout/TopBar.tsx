@@ -219,8 +219,8 @@ export const TopBar: React.FC<TopBarProps> = ({ isSidebarOpen, onToggleSidebar }
         </div>
       </div>
 
-      {/* 3. 5-Subsystem Machine Health Indicators */}
-      <div className="hidden xl:flex items-center space-x-2 bg-cat-bg/90 px-3 py-1 rounded-md border border-cat-border/70">
+      {/* 3. 5-Subsystem Machine Health Indicators (Visible on Ultra-wide displays) */}
+      <div className="hidden 2xl:flex items-center space-x-2 bg-cat-bg/90 px-3 py-1 rounded-md border border-cat-border/70">
         <div className="flex items-center space-x-1 text-[11px] font-extrabold uppercase tracking-wider text-cat-muted mr-1">
           <HeartPulse className="w-3.5 h-3.5 text-cat-yellow" />
           <span>Health:</span>
@@ -331,7 +331,7 @@ export const TopBar: React.FC<TopBarProps> = ({ isSidebarOpen, onToggleSidebar }
       </div>
 
       {/* 5. Shift Clock & Simulator Toggle */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
         {/* Shift Elapsed Clock */}
         <div
           className="flex items-center space-x-1.5 bg-cat-surface px-2.5 py-1.5 rounded border border-cat-border text-xs"

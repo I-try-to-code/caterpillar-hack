@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTelemetry } from '../../context/TelemetryContext';
 import { initialTelemetryState } from '../../data/telemetry';
 import { ScenarioResult, DemoScenarioDef } from './ScenarioResult';
@@ -232,6 +232,16 @@ export const DemoScenarioPanel: React.FC<DemoScenarioPanelProps> = ({
     handleApplyScenario(DEMO_SCENARIOS[nextIdx]);
   };
 
+  // Handle Escape key dismissal
+  useEffect(() => {
+    if (!isOpen || !onClose) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const content = (
@@ -316,10 +326,13 @@ export const DemoScenarioPanel: React.FC<DemoScenarioPanelProps> = ({
   if (onClose) {
     return (
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in cursor-pointer"
         role="dialog"
       >
-        <div className="bg-cat-panel border-2 border-cat-border rounded-xl shadow-2xl w-full max-w-3xl p-5 overflow-hidden text-cat-text select-none">
+        <div className="bg-cat-panel border-2 border-cat-border rounded-xl shadow-2xl w-full max-w-3xl p-5 overflow-hidden text-cat-text select-none cursor-default">
           {content}
         </div>
       </div>
