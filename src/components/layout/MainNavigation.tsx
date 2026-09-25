@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, ShieldCheck, GraduationCap, Activity } from 'lucide-react';
+import { LayoutDashboard, ShieldCheck, GraduationCap, Activity, FileText } from 'lucide-react';
 
-export type TabType = 'dashboard' | 'safety' | 'training' | 'anomalies';
+export type TabType = 'dashboard' | 'safety' | 'training' | 'anomalies' | 'handover';
 
 interface MainNavigationProps {
   activeTab: TabType;
@@ -39,6 +39,12 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Anomaly & Pattern Detection',
     moduleCode: 'MOD-D',
     icon: Activity,
+  },
+  {
+    id: 'handover',
+    label: 'Shift Handover & Report',
+    moduleCode: 'MOD-E',
+    icon: FileText,
   },
 ];
 

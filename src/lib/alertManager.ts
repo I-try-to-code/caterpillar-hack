@@ -335,6 +335,138 @@ function evaluateAllConditions(telemetry: TelemetryState): EvaluatedCondition[] 
     });
   }
 
+  // 8. Excessive Idling
+  const idle = telemetry.idleTimeMinutes;
+  if (idle >= 10.0) {
+    conditions.push({
+      id: 'condition-idle',
+      name: 'Excessive Engine Idle',
+      severity: 'danger',
+      module: 'D',
+      title: 'Excessive Engine Idling (> 10m)',
+      message: `Machine has idled continuously for ${idle.toFixed(1)} minutes. Shut down engine to eliminate fuel waste.`,
+      voiceText: `Excessive idle alert. Machine has idled for ${Math.round(idle)} minutes. Please shut down engine or engage auto-stop.`,
+      value: `${idle.toFixed(1)} min`,
+      threshold: '< 10.0 min',
+    });
+  } else if (idle >= 5.0) {
+    conditions.push({
+      id: 'condition-idle',
+      name: 'Excessive Engine Idle',
+      severity: 'warning',
+      module: 'D',
+      title: 'Elevated Idle Duration',
+      message: `Machine idle at ${idle.toFixed(1)} minutes exceeds eco-threshold.`,
+      voiceText: `Notice: Idle time exceeding 5 minutes.`,
+      value: `${idle.toFixed(1)} min`,
+      threshold: '< 5.0 min',
+    });
+  } else {
+    conditions.push({
+      id: 'condition-idle',
+      name: 'Excessive Engine Idle',
+      severity: 'safe',
+      module: 'D',
+      title: 'Idle Time Normal',
+      message: `Idle duration ${idle.toFixed(1)} min within normal limits.`,
+      voiceText: 'Engine idle normal.',
+      value: `${idle.toFixed(1)} min`,
+      threshold: '< 5.0 min',
+    });
+  }
+
+  // 9. Engine Oil Pressure
+  const oil = telemetry.oilPressure;
+  if (oil < 25) {
+    conditions.push({
+      id: 'condition-oil',
+      name: 'Engine Oil Pressure',
+      severity: 'critical',
+      module: 'D',
+      title: 'Critical Low Oil Pressure',
+      message: `Oil pressure at ${oil.toFixed(0)} psi is critically low. Severe bearing seizure risk.`,
+      voiceText: `Critical warning. Low engine oil pressure at ${oil.toFixed(0)} psi. Shut down engine immediately.`,
+      value: `${oil.toFixed(0)} psi`,
+      threshold: '≥ 25 psi',
+    });
+  } else if (oil > 70) {
+    conditions.push({
+      id: 'condition-oil',
+      name: 'Engine Oil Pressure',
+      severity: 'critical',
+      module: 'D',
+      title: 'Critical High Oil Pressure',
+      message: `Oil pressure at ${oil.toFixed(0)} psi exceeds maximum rating.`,
+      voiceText: `Critical warning. High engine oil pressure at ${oil.toFixed(0)} psi.`,
+      value: `${oil.toFixed(0)} psi`,
+      threshold: '≤ 70 psi',
+    });
+  } else if (oil < 35 || oil > 65) {
+    conditions.push({
+      id: 'condition-oil',
+      name: 'Engine Oil Pressure',
+      severity: 'warning',
+      module: 'D',
+      title: 'Oil Pressure Deviation',
+      message: `Oil pressure at ${oil.toFixed(0)} psi outside recommended 35–65 psi band.`,
+      voiceText: `Caution: Engine oil pressure fluctuating at ${oil.toFixed(0)} psi.`,
+      value: `${oil.toFixed(0)} psi`,
+      threshold: '35–65 psi',
+    });
+  } else {
+    conditions.push({
+      id: 'condition-oil',
+      name: 'Engine Oil Pressure',
+      severity: 'safe',
+      module: 'D',
+      title: 'Oil Pressure Normal',
+      message: `Oil pressure at ${oil.toFixed(0)} psi nominal.`,
+      voiceText: 'Engine oil pressure nominal.',
+      value: `${oil.toFixed(0)} psi`,
+      threshold: '35–65 psi',
+    });
+  }
+
+  // 10. Coolant Level
+  const coolant = telemetry.coolantLevel;
+  if (coolant < 25) {
+    conditions.push({
+      id: 'condition-coolant',
+      name: 'Coolant Level',
+      severity: 'critical',
+      module: 'D',
+      title: 'Critical Low Coolant',
+      message: `Coolant level is ${coolant.toFixed(0)}%. Vapor lock and engine seizure risk.`,
+      voiceText: `Critical warning. Coolant level below twenty five percent. Engine overheating imminent.`,
+      value: `${coolant.toFixed(0)}%`,
+      threshold: '≥ 25%',
+    });
+  } else if (coolant < 50) {
+    conditions.push({
+      id: 'condition-coolant',
+      name: 'Coolant Level',
+      severity: 'warning',
+      module: 'D',
+      title: 'Low Coolant Level',
+      message: `Coolant reservoir at ${coolant.toFixed(0)}% requires top-up.`,
+      voiceText: `Caution: Engine coolant low at ${coolant.toFixed(0)} percent.`,
+      value: `${coolant.toFixed(0)}%`,
+      threshold: '≥ 50%',
+    });
+  } else {
+    conditions.push({
+      id: 'condition-coolant',
+      name: 'Coolant Level',
+      severity: 'safe',
+      module: 'D',
+      title: 'Coolant Level Normal',
+      message: `Coolant level at ${coolant.toFixed(0)}% nominal.`,
+      voiceText: 'Engine coolant level nominal.',
+      value: `${coolant.toFixed(0)}%`,
+      threshold: '≥ 50%',
+    });
+  }
+
   return conditions;
 }
 

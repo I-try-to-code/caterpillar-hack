@@ -27,6 +27,7 @@ import {
   Timer,
   PhoneCall,
   CheckCircle,
+  Sparkles,
 } from 'lucide-react';
 
 interface SimulatorSidebarProps {
@@ -34,6 +35,7 @@ interface SimulatorSidebarProps {
   onClose: () => void;
   isSimRunning?: boolean;
   onToggleSim?: () => void;
+  onOpenDemoModal?: () => void;
 }
 
 const WEATHER_OPTIONS: SelectOption[] = [
@@ -55,6 +57,7 @@ export const SimulatorSidebar: React.FC<SimulatorSidebarProps> = ({
   onClose,
   isSimRunning = true,
   onToggleSim,
+  onOpenDemoModal,
 }) => {
   const { telemetry, updateTelemetry, setTelemetry, resetTelemetry } = useTelemetry();
   const [escalatedMessage, setEscalatedMessage] = useState<string | null>(null);
@@ -201,120 +204,115 @@ export const SimulatorSidebar: React.FC<SimulatorSidebarProps> = ({
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-black uppercase tracking-wider text-cat-yellow flex items-center gap-1">
             <Zap className="w-3.5 h-3.5" />
-            Instant Demo Scenarios
+            Judge Demo Scenarios
           </span>
-          <span className="text-[10px] text-cat-muted uppercase font-bold">1-Click Trigger</span>
+          {onOpenDemoModal && (
+            <button
+              type="button"
+              onClick={onOpenDemoModal}
+              className="text-[10px] text-cat-yellow font-extrabold uppercase hover:underline flex items-center gap-1"
+            >
+              <span>Guided View</span>
+              <Sparkles className="w-3 h-3" />
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 md:grid-cols-4">
-          {/* Safe */}
+        {onOpenDemoModal && (
+          <button
+            type="button"
+            onClick={onOpenDemoModal}
+            className="w-full touch-btn h-8 px-2 text-xs font-black rounded bg-cat-yellow text-slate-950 hover:bg-yellow-400 flex items-center justify-center space-x-1.5 transition-colors shadow-sm"
+          >
+            <Zap className="w-3.5 h-3.5" />
+            <span>Launch Judge Demo Controller</span>
+          </button>
+        )}
+
+        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+          {/* 1. Safe */}
           <button
             type="button"
             onClick={() => setTelemetry(initialTelemetryState)}
             className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-green/40 text-cat-green hover:bg-cat-green/20 transition-colors"
           >
-            Safe
+            1. Safe (Nominal)
           </button>
 
-          {/* Seatbelt Danger */}
+          {/* 2. Proximity 3m */}
           <button
             type="button"
             onClick={() =>
-              handleApplyPreset('Seatbelt Danger', {
+              handleApplyPreset('Proximity Breach (3m)', {
+                proximityDistance: 3.0,
+                nearbyPersonnel: 1,
+              })
+            }
+            className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
+          >
+            2. Proximity (3m)
+          </button>
+
+          {/* 3. Rollover 27° */}
+          <button
+            type="button"
+            onClick={() =>
+              handleApplyPreset('Rollover Risk (27°)', {
+                slopeAngle: 27.0,
+                bucketHeight: 2.8,
+              })
+            }
+            className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
+          >
+            3. Rollover (27°)
+          </button>
+
+          {/* 4. Seatbelt Interlock */}
+          <button
+            type="button"
+            onClick={() =>
+              handleApplyPreset('Seatbelt Off In Motion', {
                 seatbeltFastened: false,
-                speed: 16.5,
-                engineRPM: 2150,
+                speed: 12.0,
+                engineRPM: 1850,
               })
             }
             className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
           >
-            Seatbelt Danger
+            4. Seatbelt Lock
           </button>
 
-          {/* Proximity Danger */}
+          {/* 5. Excessive Idle 10m */}
           <button
             type="button"
             onClick={() =>
-              handleApplyPreset('Proximity Danger', {
-                proximityDistance: 1.6,
-                trenchDistance: 1.8,
-                nearbyPersonnel: 3,
-              })
-            }
-            className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
-          >
-            Proximity Danger
-          </button>
-
-          {/* Rollover Danger */}
-          <button
-            type="button"
-            onClick={() =>
-              handleApplyPreset('Rollover Danger', {
-                slopeAngle: 28.5,
-                gForce: 2.65,
-                bucketHeight: 4.5,
-              })
-            }
-            className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
-          >
-            Rollover Danger
-          </button>
-
-          {/* Excessive Idle */}
-          <button
-            type="button"
-            onClick={() =>
-              handleApplyPreset('Excessive Idle', {
-                idleTimeMinutes: 14.5,
-                engineRPM: 720,
+              handleApplyPreset('Excessive Idle (10m)', {
+                idleTimeMinutes: 10.0,
+                engineRPM: 750,
                 speed: 0,
-                continuousOpMinutes: 115,
               })
             }
             className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-amber/40 text-cat-amber hover:bg-cat-amber/20 transition-colors"
           >
-            Excessive Idle
+            5. Idle (10 min)
           </button>
 
-          {/* Overheat */}
+          {/* 6. Multi-Hazard (Primary Demo) */}
           <button
             type="button"
             onClick={() =>
-              handleApplyPreset('Overheat', {
-                engineTemp: 124,
-                coolantLevel: 16,
-                oilPressure: 18,
-                hydraulicPressure: 375,
-              })
-            }
-            className="touch-btn h-9 px-2 text-[11px] font-bold rounded bg-cat-surface border border-cat-red/40 text-cat-red hover:bg-cat-red/20 transition-colors"
-          >
-            Overheat
-          </button>
-
-          {/* Full Hazard */}
-          <button
-            type="button"
-            onClick={() =>
-              handleApplyPreset('Full Hazard', {
+              handleApplyPreset('Multi-Hazard Event', {
+                proximityDistance: 3.0,
+                slopeAngle: 27.0,
                 seatbeltFastened: false,
-                proximityDistance: 1.4,
-                trenchDistance: 1.2,
-                slopeAngle: 26.0,
-                engineTemp: 122,
-                coolantLevel: 18,
-                oilPressure: 19,
-                hydraulicPressure: 385,
-                postureState: 'Slouching',
-                nearbyPersonnel: 2,
-                gForce: 2.5,
-                speed: 18.5,
+                speed: 8.5,
+                nearbyPersonnel: 1,
+                bucketHeight: 2.5,
               })
             }
-            className="touch-btn h-9 px-2 text-[11px] font-black rounded bg-cat-red text-white hover:bg-cat-redDark transition-colors col-span-2 shadow-cat-danger"
+            className="touch-btn h-9 px-2 text-[11px] font-black rounded bg-cat-red text-white hover:bg-red-700 transition-colors shadow-cat-danger"
           >
-            Full Hazard (All Systems)
+            6. Multi-Hazard ★
           </button>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { SafetyPage } from './pages/SafetyPage';
 import { TrainingPage } from './pages/TrainingPage';
 import { AnomaliesPage } from './pages/AnomaliesPage';
+import { HandoverPage } from './pages/HandoverPage';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
@@ -21,6 +22,8 @@ export const App: React.FC = () => {
         return <TrainingPage />;
       case 'anomalies':
         return <AnomaliesPage />;
+      case 'handover':
+        return <HandoverPage onNavigateToTraining={() => setActiveTab('training')} />;
       default:
         return <DashboardPage />;
     }

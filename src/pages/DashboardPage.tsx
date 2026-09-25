@@ -13,6 +13,7 @@ import { OperatorActionCard } from '../components/dashboard/OperatorActionCard';
 import { PreStartInspection } from '../components/dashboard/PreStartInspection';
 import { SiteMap } from '../components/dashboard/SiteMap';
 import { WeatherConditions } from '../components/dashboard/WeatherConditions';
+import { MachineHealthPanel } from '../components/machine/MachineHealthPanel';
 import { PlayCircle, Clock, MapPin } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
@@ -95,6 +96,9 @@ export const DashboardPage: React.FC = () => {
           <SafetyStatusCard />
           <WhatChangedPanel />
         </div>
+
+        {/* 5-Subsystem Mechanical Health Monitoring */}
+        <MachineHealthPanel />
 
         {/* Weather & Mud Factor Bar */}
         <WeatherConditions />
